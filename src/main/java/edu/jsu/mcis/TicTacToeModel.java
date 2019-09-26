@@ -113,7 +113,7 @@ public class TicTacToeModel {
         /* Return TRUE if the specified location is within the bounds of the board */
         
         // INSERT YOUR CODE HERE
-        if( row <= width && row >= 0 && col <= width && col >= 0)
+        if( row < width && row >= 0 && col < width && col >= 0)
             return true;
         else
             return false;
@@ -173,7 +173,7 @@ public class TicTacToeModel {
         int markCountV = 0;
         int markCountDR = 0;
         int markCountDL = 0;
-        int count = width;
+        int count = width-1;
 
         for(int row = 0; row < width; row++){
 
@@ -189,12 +189,17 @@ public class TicTacToeModel {
                 if(board[col][row] == mark) 
                     markCountV++;    
             }
-            if(markCountH == width || markCountV == width || markCountDR == width || markCountDL == width){
+            if(markCountH == width || markCountV == width ){
                 return true;
             }
-        }
+            markCountH = 0;
+            markCountV = 0;
 
-        return false;
+        }
+        if(markCountDR == width || markCountDL == width)
+            return true;
+        else
+            return false;
 
     }
 	
@@ -206,9 +211,11 @@ public class TicTacToeModel {
         boolean empty = false;
         for(int row = 0; row < width; row++){
             for(int col = 0; col < width; col++){
-                if(board[row][col] = Mark.EMPTY)
+                if(board[row][col] == Mark.EMPTY) {
                     empty = true;
                     break;
+                }
+    
             }
         }
         if(!empty  && (!isMarkWin(Mark.X) || !isMarkWin(Mark.O))) 
@@ -245,19 +252,20 @@ public class TicTacToeModel {
     @Override
     public String toString() {
         
-        StringBuilder output = new StringBuilder(" ");
+        StringBuilder output = new StringBuilder("  ");
         
         for(int row = 0; row < width; row++) {
-            output.append(row+1).append(" ");
+            output.append(row);
         }
-        output.append("\n");
+        output.append("\n").append("\n");
 
         for(int row = 0; row < width; row++) {
-            output.append(row+1).append(" ");
+            output.append(row).append(" ");
             for(int col = 0; col < width; col++) {
-                output.append("_ ");
+                output.append((board[row][col]).toString());
             }
-            output.append("\n");
+            if(row < width-1)
+                output.append("\n");
         }
 
         return output.toString();

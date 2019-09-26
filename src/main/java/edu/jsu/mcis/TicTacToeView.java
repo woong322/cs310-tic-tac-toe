@@ -33,7 +33,9 @@ public class TicTacToeView {
         int row = keyboard.nextInt();
         int col = keyboard.nextInt();
 
-        return TicTacToeMove(row, col);
+        TicTacToeMove move = new TicTacToeMove(row, col);
+
+        return move;
     }
 
     public void showInputError() {
