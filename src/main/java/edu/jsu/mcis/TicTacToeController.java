@@ -1,48 +1,67 @@
 package edu.jsu.mcis;
 
-public class TicTacToeController {
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+public class TicTacToeController implements ActionListener {
 
     private final TicTacToeModel model;
     private final TicTacToeView view;
+    private int width;
     
     /* CONSTRUCTOR */
 
     public TicTacToeController(int width) {
         
         /* Initialize model, view, and width */
-
+        this.width = width;    
         model = new TicTacToeModel(width);
         view = new TicTacToeView();
         
     }
 
-    public void start() {
+    public String getMarkAsString(int row, int col) {        
+        return (model.getMark(row, col).toString());        
+    }
     
-        /* MAIN LOOP (repeats until game is over) */
+    public TicTacToeView getView() {        
+        return view;        
+    }
 
-        /* Display the board using the View's "showBoard()", then use
-           "getNextMove()" to get the next move from the player.  Enter
-           the move (using the Model's "makeMark()", or display an error
-           using the View's "showInputError()" if the move is invalid. */
-
+    @Override
+    public void actionPerformed(ActionEvent event) {
         // INSERT YOUR CODE HERE
-        while(model.isGameover()){
-            view.showBoard(model.toString());
-            TicTacToeMove move = view.getNextMove(model.isXTurn());
-            int row = move.getRow();
-            int col = move.getCol();
-            if(model.makeMark(row, col))
-                view.showBoard(model.toString());
-            else
-                view.showInputError();
+        if(event.getSource() instanceof JButton) {
+            JButton button = (JButton) event.getSource();
+            String name = button.getName();
+            int row = Integer.parseInt(name.substring(6,7));
+            int col = Integer.parseInt(name.substring(7));
+
+            if(model.makeMark(row, col)) {
+
+                if(model.getResult() == model.Result.X) {
+                    view.showResult("X");
+                    view.disableSquares();
+                }
+
+                else if(model.getResult() == model.Result.O) {
+                    view.showResult("O");
+                    view.disableSquares();
+                }
+                else if(model.getResult() == model.Result.TIE) {
+                    view.showResult("TIE");
+                    view.disableSquares();
+                }
+                else{
+                    view.clearResult();
+                }
+            }
         }
-        
-        /* After the game is over, show the final board and the winner */
+    }
 
-        view.showBoard(model.toString());
-
-        view.showResult(model.getResult().toString());
-        
+    public int getWidth() {
+        return width;
     }
 
 }
