@@ -246,7 +246,7 @@ public class TicTacToeModel {
     public String toString() {
         
         StringBuilder output = new StringBuilder(" ");
-        int width = 3;
+        
         for(int row = 0; row < width; row++) {
             output.append(row+1).append(" ");
         }
