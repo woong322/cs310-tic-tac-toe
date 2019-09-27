@@ -1,7 +1,7 @@
 package edu.jsu.mcis;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class TicTacToeController implements ActionListener {
@@ -17,7 +17,7 @@ public class TicTacToeController implements ActionListener {
         /* Initialize model, view, and width */
         this.width = width;    
         model = new TicTacToeModel(width);
-        view = new TicTacToeView();
+        view = new TicTacToeView(this, width);
         
     }
 
@@ -40,16 +40,17 @@ public class TicTacToeController implements ActionListener {
 
             if(model.makeMark(row, col)) {
 
-                if(model.getResult() == model.Result.X) {
+                view.updateSquares();
+                if(model.getResult().toString() == "X") {
                     view.showResult("X");
                     view.disableSquares();
                 }
 
-                else if(model.getResult() == model.Result.O) {
+                else if(model.getResult().toString() == "O") {
                     view.showResult("O");
                     view.disableSquares();
                 }
-                else if(model.getResult() == model.Result.TIE) {
+                else if(model.getResult().toString() == "TIE") {
                     view.showResult("TIE");
                     view.disableSquares();
                 }
